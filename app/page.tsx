@@ -193,7 +193,7 @@ export default function Home() {
       assemble > 0      ? `ðŸ”¨ *Schrank aufbauen:* ${assemble}x`           : "",
       kitchenAbbau > 0  ? `ðŸ³ *KÃ¼che abbauen:* ${kitchenAbbau}x`         : "",
       kitchenAufbau     ? `ðŸ³ *KÃ¼che aufbauen:* Ja (Preis auf Anfrage)`  : "",
-      `ðŸ’¶ *SchÃ¤tzpreis:* ${price} â‚¬`,
+      `ðŸ’¶ *Schätzpreis:* ${price} â‚¬`,
       ``,
       message ? `ðŸ’¬ *Nachricht:* ${message}` : "",
     ].filter(Boolean).join("\n");
@@ -430,7 +430,7 @@ export default function Home() {
               style={{ background:GOLD, color:"#fff", padding:"16px 36px", borderRadius:14, border:"none", fontSize:14, fontWeight:700, cursor:"pointer", fontFamily:"inherit", boxShadow:`0 12px 32px rgba(176,137,104,.3)`, transition:"all .22s" }}
               onMouseEnter={e => { e.currentTarget.style.background="#9a7454"; e.currentTarget.style.transform="translateY(-2px)"; }}
               onMouseLeave={e => { e.currentTarget.style.background=GOLD; e.currentTarget.style.transform="translateY(0)"; }}>
-              Preis berechnen ->
+              Preis berechnen →
             </button>
             <a href="tel:+49000000000" style={{ background:"rgba(255,255,255,.07)", border:"1px solid rgba(255,255,255,.13)", color:"#fff", padding:"16px 32px", borderRadius:14, textDecoration:"none", fontSize:14, fontWeight:600, transition:"all .22s" }}
               onMouseEnter={e => (e.currentTarget.style.background="rgba(255,255,255,.12)")}
