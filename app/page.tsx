@@ -213,21 +213,21 @@ export default function Home() {
   ];
 
   const services = [
-    { icon: "ðŸ ", title: "Privatumzug",  desc: "Vom Studio bis zur Villa â€” wir kÃ¼mmern uns um jeden Karton mit grÃ¶ÃŸter Sorgfalt.", price: "ab 280 â‚¬" },
-    { icon: "ðŸ¢", title: "BÃ¼roumzug",    desc: "Schnelle, diskrete BÃ¼roverlagerungen â€” minimale Ausfallzeit fÃ¼r Ihr Unternehmen.", price: "auf Anfrage" },
-    { icon: "ðŸ“¦", title: "Einlagerung",  desc: "Sichere Zwischenlagerung Ihrer GegenstÃ¤nde â€” trocken, versichert, flexibel buchbar.", price: "ab 49 â‚¬ / Mo." },
-    { icon: "ðŸ›‹ï¸", title: "MÃ¶belmontage", desc: "Professionelles Auf- und Abbauen aller MÃ¶belstÃ¼cke â€” IKEA bis MaÃŸanfertigung.", price: "ab 50 â‚¬ / StÃ¼ck" },
-    { icon: "ðŸ“‹", title: "Verpackung",   desc: "Wir verpacken alles sicher â€” Spezialverpackung fÃ¼r Kunst, Glas und Elektronik.", price: "ab 80 â‚¬" },
-    { icon: "ðŸš›", title: "Fernumzug",    desc: "Deutschlandweit und europaweit â€” mit Vollkasko-Versicherung und GPS-Tracking.", price: "auf Anfrage" },
+    { icon: "ðŸ ", title: "Privatumzug",  desc: "Vom Studio bis zur Villa - wir kÃ¼mmern uns um jeden Karton mit größter Sorgfalt.", price: "ab 280 €¬" },
+    { icon: "ðŸ¢", title: "Büroumzug",    desc: "Schnelle, diskrete Büroverlagerungen - minimale Ausfallzeit für Ihr Unternehmen.", price: "auf Anfrage" },
+    { icon: "ðŸ“¦", title: "Einlagerung",  desc: "Sichere Zwischenlagerung Ihrer Gegenstände - trocken, versichert, flexibel buchbar.", price: "ab 49 € / Mo." },
+    { icon: "ðŸ›‹ï¸", title: "MÃ¶belmontage", desc: "Professionelles Auf- und Abbauen aller Möbelstücke - IKEA bis Maßanfertigung.", price: "ab 50 € / Stück" },
+    { icon: "ðŸ“‹", title: "Verpackung",   desc: "Wir verpacken alles sicher - Spezialverpackung für Kunst, Glas und Elektronik.", price: "ab 80 €" },
+    { icon: "ðŸš›", title: "Fernumzug",    desc: "Deutschlandweit und europaweit - mit Vollkasko-Versicherung und GPS-Tracking.", price: "auf Anfrage" },
   ];
 
   const faqs = [
-    { q: "Wie weit im Voraus soll ich buchen?", a: "Wir empfehlen mindestens 2â€“3 Wochen vor dem gewÃ¼nschten Umzugstermin. In der Hochsaison (Maiâ€“September) idealerweise 4â€“6 Wochen." },
-    { q: "Ist mein Umzugsgut versichert?", a: "Ja, jeder Umzug ist standardmÃ¤ÃŸig mit einer Transportversicherung bis 50.000 â‚¬ abgedeckt. Auf Wunsch bieten wir auch hÃ¶here Deckungssummen an." },
-    { q: "Kann ich den Termin kurzfristig Ã¤ndern?", a: "TerminÃ¤nderungen sind bis 48 Stunden vorher kostenlos mÃ¶glich. Danach berechnen wir eine kleine BearbeitungsgebÃ¼hr." },
-    { q: "Liefert ihr auch Verpackungsmaterial?", a: "SelbstverstÃ¤ndlich! Kartons, Luftpolsterfolie, Klebeband und Schutzdecken liefern wir auf Wunsch vorab zu Ihnen nach Hause." },
-    { q: "Arbeitet ihr auch am Wochenende?", a: "Ja! Wir sind 7 Tage die Woche einsatzbereit â€” auch an Sonn- und Feiertagen, ohne Aufpreis." },
-    { q: "Wie genau ist der Preisrechner?", a: "Der Rechner gibt eine solide SchÃ¤tzung fÃ¼r StandardumzÃ¼ge. FÃ¼r eine verbindliche Offerte kommen wir gerne kostenlos zu Ihnen." },
+    { q: "Wie weit im Voraus soll ich buchen?", a: "Wir empfehlen mindestens 2-3 Wochen vor dem gewünschten Umzugstermin. In der Hochsaison (Mai - September) idealerweise 4-6 Wochen." },
+    { q: "Ist mein Umzugsgut versichert?", a: "Ja, jeder Umzug ist standardmäßig mit einer Transportversicherung bis 50.000 € abgedeckt. Auf Wunsch bieten wir auch höhere Deckungssummen an." },
+    { q: "Kann ich den Termin kurzfristig ändern?", a: "Terminänderungen sind bis 48 Stunden vorher kostenlos möglich. Danach berechnen wir eine kleine Bearbeitungsgebühr." },
+    { q: "Liefert ihr auch Verpackungsmaterial?", a: "Selbstverständlich! Kartons, Luftpolsterfolie, Klebeband und Schutzdecken liefern wir auf Wunsch vorab zu Ihnen nach Hause." },
+    { q: "Arbeitet ihr auch am Wochenende?", a: "Ja! Wir sind 7 Tage die Woche einsatzbereit - auch an Sonn- und Feiertagen, ohne Aufpreis." },
+    { q: "Wie genau ist der Preisrechner?", a: "Der Rechner gibt eine solide Schätzung für Standardumzüge. Für eine verbindliche Offerte kommen wir gerne kostenlos zu Ihnen." },
   ];
 
   const IS: React.CSSProperties = {
@@ -412,7 +412,7 @@ export default function Home() {
         </div>
         <div style={{ position:"relative", zIndex:10, textAlign:"center", padding:"100px 24px 60px", maxWidth:860, width:"100%" }}>
           <div className="gpulse" style={{ display:"inline-block", background:"rgba(176,137,104,.12)", border:"1px solid rgba(176,137,104,.35)", color:GOLD, fontSize:10, fontWeight:700, padding:"6px 18px", borderRadius:999, letterSpacing:"0.22em", textTransform:"uppercase", marginBottom:28 }}>
-            âœ¦ Premium Umzugsservice Â· Baden-WÃ¼rttemberg
+            âœ¦ Premium Umzugsservice Â· Baden-Württemberg
           </div>
           <h1 style={{ fontFamily:"'Playfair Display', serif", fontSize:"clamp(52px,10vw,100px)", fontWeight:900, fontStyle:"italic", lineHeight:.95, letterSpacing:"-2px", marginBottom:28, color:"#fff" }}>
             {"DAHEIM".split("").map((c,i) => <span key={i} className="letter" style={{ animationDelay:`${i*.055}s` }}>{c}</span>)}
@@ -422,7 +422,7 @@ export default function Home() {
             </span>
           </h1>
           <p className={`fu ${heroVisible?"on":""} d3`} style={{ fontSize:"clamp(15px,2vw,18px)", color:"rgba(255,255,255,.6)", fontWeight:300, lineHeight:1.75, maxWidth:540, margin:"0 auto 36px" }}>
-            Ihr Partner fÃ¼r stressfreie UmzÃ¼ge â€” von der Planung bis zum letzten Karton.{" "}
+            Ihr Partner für stressfreie Umzüge - von der Planung bis zum letzten Karton.{" "}
             <strong style={{ color:"#fff", fontWeight:700 }}>Sorgfalt garantiert.</strong>
           </p>
           <div className={`fu ${heroVisible?"on":""} d4 hero-btns`} style={{ display:"flex", gap:12, justifyContent:"center", flexWrap:"wrap" }}>
@@ -430,7 +430,7 @@ export default function Home() {
               style={{ background:GOLD, color:"#fff", padding:"16px 36px", borderRadius:14, border:"none", fontSize:14, fontWeight:700, cursor:"pointer", fontFamily:"inherit", boxShadow:`0 12px 32px rgba(176,137,104,.3)`, transition:"all .22s" }}
               onMouseEnter={e => { e.currentTarget.style.background="#9a7454"; e.currentTarget.style.transform="translateY(-2px)"; }}
               onMouseLeave={e => { e.currentTarget.style.background=GOLD; e.currentTarget.style.transform="translateY(0)"; }}>
-              Preis berechnen â†’
+              Preis berechnen ->
             </button>
             <a href="tel:+49000000000" style={{ background:"rgba(255,255,255,.07)", border:"1px solid rgba(255,255,255,.13)", color:"#fff", padding:"16px 32px", borderRadius:14, textDecoration:"none", fontSize:14, fontWeight:600, transition:"all .22s" }}
               onMouseEnter={e => (e.currentTarget.style.background="rgba(255,255,255,.12)")}
@@ -450,7 +450,7 @@ export default function Home() {
         <div className="trust-bar" style={{ maxWidth:1000, margin:"0 auto" }}>
           {[
             { icon:"ðŸ›¡ï¸", label:"Vollkasko-Versicherung", sub:"bis 50.000 â‚¬ gedeckt" },
-            { icon:"âœ…", label:"GeprÃ¼ftes Unternehmen",  sub:"seit 2016 aktiv" },
+            { icon:"âœ…", label:"Geprüftes Unternehmen",  sub:"seit 2016 aktiv" },
             { icon:"ðŸ•", label:"24h Antwortgarantie",    sub:"schnelle RÃ¼ckmeldung" },
             { icon:"ðŸ’¶", label:"Keine Anzahlung",        sub:"Zahlung erst nach Umzug" },
           ].map((b,i) => (
@@ -468,7 +468,7 @@ export default function Home() {
       {/* STATS */}
       <section ref={statsRef as React.RefObject<HTMLElement>} style={{ background:GOLD, padding:"32px 24px" }}>
         <div className="stats-grid" style={{ maxWidth:960, margin:"0 auto", display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:16, textAlign:"center" }}>
-          {[{n:1200,s:"+",label:"UmzÃ¼ge"},{n:8,s:" J.",label:"Erfahrung"},{n:15,s:"",label:"Profis"},{n:4.9,s:"â˜…",label:"Bewertung"}].map((item,i) => (
+          {[{n:1200,s:"+",label:"Umzüge"},{n:8,s:" J.",label:"Erfahrung"},{n:15,s:"",label:"Profis"},{n:4.9,s:"â˜…",label:"Bewertung"}].map((item,i) => (
             <div key={i} className={`fu ${statsVisible?"on":""} d${i+1}`}>
               <div style={{ fontFamily:"'Playfair Display', serif", fontSize:"clamp(28px,4vw,42px)", fontWeight:900, color:NAVY, lineHeight:1 }}>
                 {statsVisible ? <AnimatedNumber target={item.n} suffix={item.s} /> : `0${item.s}`}
@@ -485,10 +485,10 @@ export default function Home() {
           <div className={`fu ${aboutVisible?"on":""}`}>
             <p style={{ color:GOLD, fontSize:10, fontWeight:700, letterSpacing:"0.2em", textTransform:"uppercase", marginBottom:14 }}>Ãœber uns</p>
             <h2 style={{ fontFamily:"'Playfair Display', serif", fontSize:"clamp(28px,4vw,46px)", fontWeight:900, fontStyle:"italic", lineHeight:1.1, marginBottom:22 }}>
-              QualitÃ¤t, die man beim<br />Umziehen <span style={{ color:GOLD }}>fÃ¼hlt.</span>
+              Qüalität, die man beim<br />Umziehen <span style={{ color:GOLD }}>fühlt.</span>
             </h2>
             <p style={{ color:"rgba(255,255,255,.52)", lineHeight:1.8, fontSize:15, marginBottom:14 }}>
-              Willkommen bei <strong style={{ color:"#fff" }}>DaheimUmzug</strong>. Wir sind nicht einfach nur ein Transportunternehmen â€” wir sind Ihre persÃ¶nliche Umzugs-Spezialeinheit in Baden-WÃ¼rttemberg.
+              Willkommen bei <strong style={{ color:"#fff" }}>DaheimUmzug</strong>. Wir sind nicht einfach nur ein Transportunternehmen â€” wir sind Ihre personliche Umzugs-Spezialeinheit in Baden-Württemberg.
             </p>
             <p style={{ color:"rgba(255,255,255,.52)", lineHeight:1.8, fontSize:15, marginBottom:32 }}>
               Mit Ã¼ber 8 Jahren Erfahrung garantieren wir einen reibungslosen Ablauf. Ihre MÃ¶bel sind mehr als GegenstÃ¤nde â€” sie sind Teil Ihrer Geschichte.
@@ -724,7 +724,7 @@ export default function Home() {
           <div className={`fu ${contactVisible?"on":""}`} style={{ textAlign:"center", marginBottom:48 }}>
             <p style={{ color:GOLD, fontSize:10, fontWeight:700, letterSpacing:"0.2em", textTransform:"uppercase", marginBottom:12 }}>Kontakt</p>
             <h2 style={{ fontFamily:"'Playfair Display', serif", fontSize:"clamp(28px,5vw,46px)", fontWeight:900, fontStyle:"italic" }}>
-              Ihr Umzug beginnt<br /><span style={{ color:GOLD }}>mit einem GesprÃ¤ch</span>
+              Ihr Umzug beginnt<br /><span style={{ color:GOLD }}>mit einem Gespräch</span>
             </h2>
           </div>
 
@@ -785,7 +785,7 @@ export default function Home() {
               <span style={{ fontFamily:"'Playfair Display', serif", fontSize:19, fontWeight:900, fontStyle:"italic" }}>Daheim<span style={{ color:GOLD }}>Umzug</span></span>
             </div>
             <p style={{ color:"rgba(255,255,255,.28)", fontSize:13, lineHeight:1.7, maxWidth:260 }}>
-              Ihr zuverlÃ¤ssiger Umzugspartner in Baden-WÃ¼rttemberg â€” mit Leidenschaft und Sorgfalt.
+              Ihr zuverlässiger Umzugspartner in Baden-Württemberg â€” mit Leidenschaft und Sorgfalt.
             </p>
             <div style={{ display:"flex", gap:10, marginTop:18 }}>
               <a href="https://wa.me/49000000000" target="_blank" rel="noopener noreferrer"
@@ -811,7 +811,7 @@ export default function Home() {
           </div>
           <div>
             <div style={{ fontSize:10, fontWeight:700, color:GOLD, textTransform:"uppercase", letterSpacing:"0.15em", marginBottom:16 }}>Kontakt</div>
-            {["info@daheimumzug.de","+49 000 000000","Baden-WÃ¼rttemberg"].map((c,i) => (
+            {["info@daheimumzug.de","+49 000 000000","Baden-Württemberg"].map((c,i) => (
               <div key={i} style={{ color:"rgba(255,255,255,.35)", fontSize:13, marginBottom:10 }}>{c}</div>
             ))}
           </div>
