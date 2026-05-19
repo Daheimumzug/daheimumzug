@@ -13,11 +13,11 @@ export default function Home() {
 
   const [price, setPrice] = useState(350);
 
-  const calculatePrice = (data: any) => {
+  const calculatePrice = (data) => {
     let base = 300;
 
-    const roomRates: any = { "1": 0, "2": 150, "3": 300, "4": 500 };
-    const floorRates: any = { "0": 0, "1": 50, "2": 100, "3": 180 };
+    const roomRates = { "1": 0, "2": 150, "3": 300, "4": 500 };
+    const floorRates = { "0": 0, "1": 50, "2": 100, "3": 180 };
 
     base += roomRates[data.rooms] || 0;
     base += floorRates[data.floor] || 0;
@@ -28,7 +28,7 @@ export default function Home() {
     setPrice(Math.round(base));
   };
 
-  const handleChange = (key: string, value: any) => {
+  const handleChange = (key, value) => {
     const newData = { ...formData, [key]: value };
     setFormData(newData);
     calculatePrice(newData);
@@ -50,133 +50,127 @@ Ich brauche ein Angebot:
   };
 
   return (
-    <div className="font-sans bg-gray-50 text-gray-900">
+    <div className="min-h-screen bg-[#0b1f3a] text-white">
 
       {/* HERO */}
-      <section className="relative h-[80vh] flex items-center justify-center text-white overflow-hidden">
+      <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
 
         <img
-          src="/images/logo.jpg"
-          alt="DaheimUmzug"
-          className="absolute inset-0 w-full h-full object-cover scale-105"
+          src="/images/home.jpg"
+          className="absolute w-full h-full object-cover"
+          alt="hero"
         />
 
         <div className="absolute inset-0 bg-black/60"></div>
 
-        <div className="relative z-10 text-center max-w-3xl px-6">
+        <div className="relative z-10 text-center">
 
+          {/* LOGO */}
           <img
             src="/images/logo.jpg"
             alt="logo"
-            className="h-16 mx-auto mb-6 rounded-xl"
+            className="h-20 mx-auto mb-6 rounded-xl shadow-lg"
           />
 
           <h1 className="text-5xl md:text-7xl font-black">
-            Stressfrei umziehen
+            Daheim<span className="text-[#b08968]">Umzug</span>
           </h1>
 
-          <p className="mt-5 text-lg text-gray-200">
-            Professioneller Umzug in Baden-Württemberg
+          <p className="mt-4 text-gray-200">
+            Ihr Umzug in Baden-Württemberg
           </p>
-
         </div>
       </section>
 
       {/* FEATURES */}
-      <section className="py-16 bg-white text-center">
-        <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-8 px-6">
+      <section className="py-16 text-center">
+        <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-6 px-6">
 
-          <div className="p-6 border rounded-2xl">
-            <h3 className="font-bold text-xl">Schnell</h3>
-            <p className="text-gray-500 mt-2">Schneller Umzug Service</p>
+          <div className="bg-[#102a4d] p-6 rounded-2xl">
+            Schnell
           </div>
 
-          <div className="p-6 border rounded-2xl">
-            <h3 className="font-bold text-xl">Sicher</h3>
-            <p className="text-gray-500 mt-2">Ihre Möbel sind geschützt</p>
+          <div className="bg-[#102a4d] p-6 rounded-2xl">
+            Sicher
           </div>
 
-          <div className="p-6 border rounded-2xl">
-            <h3 className="font-bold text-xl">Fair</h3>
-            <p className="text-gray-500 mt-2">Transparente Preise</p>
+          <div className="bg-[#102a4d] p-6 rounded-2xl">
+            Fair
           </div>
 
         </div>
       </section>
 
       {/* CALCULATOR */}
-      <section className="max-w-xl mx-auto p-6 mb-20" id="calculator">
+      <section className="max-w-xl mx-auto p-6">
 
-        <h2 className="text-3xl font-black text-center mb-8">
+        <h2 className="text-3xl font-black mb-6 text-center">
           Preis berechnen
         </h2>
 
-        <div className="space-y-4">
+        <input
+          type="number"
+          value={formData.distance}
+          onChange={(e) => handleChange("distance", e.target.value)}
+          className="w-full p-4 mb-3 text-black rounded-xl"
+          placeholder="Distanz"
+        />
 
-          <input
-            type="number"
-            value={formData.distance}
-            onChange={(e) => handleChange("distance", e.target.value)}
-            className="w-full p-4 border rounded-xl"
-            placeholder="Distanz km"
-          />
+        <select
+          value={formData.rooms}
+          onChange={(e) => handleChange("rooms", e.target.value)}
+          className="w-full p-4 mb-3 text-black rounded-xl"
+        >
+          <option value="1">1 Zimmer</option>
+          <option value="2">2 Zimmer</option>
+          <option value="3">3 Zimmer</option>
+          <option value="4">4+ Zimmer</option>
+        </select>
 
-          <select
-            value={formData.rooms}
-            onChange={(e) => handleChange("rooms", e.target.value)}
-            className="w-full p-4 border rounded-xl"
-          >
-            <option value="1">1 Zimmer</option>
-            <option value="2">2 Zimmer</option>
-            <option value="3">3 Zimmer</option>
-            <option value="4">4+ Zimmer</option>
-          </select>
+        <select
+          value={formData.floor}
+          onChange={(e) => handleChange("floor", e.target.value)}
+          className="w-full p-4 mb-3 text-black rounded-xl"
+        >
+          <option value="0">EG</option>
+          <option value="1">1. Stock</option>
+          <option value="2">2. Stock</option>
+          <option value="3">3+ Stock</option>
+        </select>
 
-          <select
-            value={formData.floor}
-            onChange={(e) => handleChange("floor", e.target.value)}
-            className="w-full p-4 border rounded-xl"
-          >
-            <option value="0">Erdgeschoss</option>
-            <option value="1">1. Stock</option>
-            <option value="2">2. Stock</option>
-            <option value="3">3+ Stock</option>
-          </select>
+        <select
+          value={formData.elevator}
+          onChange={(e) => handleChange("elevator", e.target.value)}
+          className="w-full p-4 mb-3 text-black rounded-xl"
+        >
+          <option value="yes">Aufzug</option>
+          <option value="no">Kein Aufzug</option>
+        </select>
 
-          <select
-            value={formData.elevator}
-            onChange={(e) => handleChange("elevator", e.target.value)}
-            className="w-full p-4 border rounded-xl"
-          >
-            <option value="yes">Aufzug vorhanden</option>
-            <option value="no">Kein Aufzug</option>
-          </select>
+        <input
+          type="number"
+          value={formData.boxes}
+          onChange={(e) => handleChange("boxes", e.target.value)}
+          className="w-full p-4 mb-4 text-black rounded-xl"
+          placeholder="Kartons"
+        />
 
-          <input
-            type="number"
-            value={formData.boxes}
-            onChange={(e) => handleChange("boxes", e.target.value)}
-            className="w-full p-4 border rounded-xl"
-            placeholder="Kartons"
-          />
-
-          <div className="bg-red-600 text-white text-center p-6 rounded-2xl">
-            <p>Geschätzter Preis</p>
-            <h3 className="text-5xl font-black">ab {price} €</h3>
-          </div>
-
-          <a
-            href={whatsappLink()}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block text-center bg-green-500 hover:bg-green-600 text-white p-4 rounded-xl font-bold"
-          >
-            Jetzt Angebot anfragen
-          </a>
-
+        {/* PRICE */}
+        <div className="bg-[#b08968] text-[#0b1f3a] text-center p-6 rounded-2xl mb-4">
+          <p>Preis</p>
+          <h3 className="text-4xl font-black">ab {price} €</h3>
         </div>
-      </section>
 
+        {/* WHATSAPP */}
+        <a
+          href={whatsappLink()}
+          target="_blank"
+          className="block text-center bg-green-500 p-4 rounded-xl font-bold"
+        >
+          Angebot senden
+        </a>
+
+      </section>
     </div>
   );
 }
