@@ -22,8 +22,8 @@ const IconPhone = () => (
 );
 
 const IconEuro = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M4 10h12M4 14h12M19.5 4.5a9 9 0 1 0 0 15"/>
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
   </svg>
 );
 
@@ -317,7 +317,7 @@ export default function Home() {
   const faqs = [
     { q: "Wie weit im Voraus soll ich buchen?", a: "Wir empfehlen mindestens 2\u20133 Wochen vor dem gew\u00FCnschten Umzugstermin. In der Hochsaison (Mai\u2013September) idealerweise 4\u20136 Wochen." },
     { q: "Ist mein Umzugsgut versichert?", a: "Ja, jeder Umzug ist standardm\u00E4\u00DFig mit einer Transportversicherung bis 50.000 \u20AC abgedeckt. Auf Wunsch bieten wir auch h\u00F6here Deckungssummen an." },
-    { q: "Kann ich den Termin kurzfristig \u00E4ndern?", a: "TerminÃ¤nderungen sind bis 48 Stunden vorher kostenlos m\u00F6glich. Danach berechnen wir eine kleine Bearbeitungsgeb\u00FChr." },
+    { q: "Kann ich den Termin kurzfristig \u00E4ndern?", a: "Terminänderungen sind bis 48 Stunden vorher kostenlos m\u00F6glich. Danach berechnen wir eine kleine Bearbeitungsgeb\u00FChr." },
     { q: "Liefert ihr auch Verpackungsmaterial?", a: "Selbstverst\u00E4ndlich! Kartons, Luftpolsterfolie, Klebeband und Schutzdecken liefern wir auf Wunsch vorab zu Ihnen nach Hause." },
     { q: "Arbeitet ihr auch am Wochenende?", a: "Ja! Wir sind 7 Tage die Woche einsatzbereit \u2014 auch an Sonn- und Feiertagen, ohne Aufpreis." },
     { q: "Wie genau ist der Preisrechner?", a: "Der Rechner gibt eine solide Sch\u00E4tzung f\u00FCr Standardumz\u00FCge. F\u00FCr eine verbindliche Offerte kommen wir gerne kostenlos zu Ihnen." },
@@ -728,7 +728,25 @@ export default function Home() {
                   </div>
                   <div style={{ fontFamily:"'Playfair Display', serif", fontSize:26, fontWeight:900, fontStyle:"italic", color:GOLD, whiteSpace:"nowrap" }}>{price} &euro;</div>
                 </div>
-                <button type="button" className="gold-btn" onClick={() => scrollTo("kontakt")}>
+                <button type="button" className="gold-btn" onClick={() => {
+                  const roomsLabel = ({"1":"1 Zimmer","2":"2 Zimmer","3":"3 Zimmer","4":"4+ Zimmer"} as Record<string,string>)[rooms] ?? rooms;
+                  const floorLabel = ({"0":"EG","1":"1. OG","2":"2. OG","3":"3+ OG"} as Record<string,string>)[floor] ?? floor;
+                  const lines = [
+                    "*Neue Umzugsanfrage - DaheimUmzug*",
+                    "",
+                    "Zimmer: " + roomsLabel,
+                    "Stockwerk: " + floorLabel,
+                    "Aufzug: " + (elevator === "yes" ? "Ja" : "Nein"),
+                    "Entfernung: " + (distMode === "address" && addrFrom && addrTo ? addrFrom + " -> " + addrTo + " (~" + distance + " km)" : distance + " km"),
+                    disassemble > 0  ? "Schrank abbauen: " + disassemble + "x"        : "",
+                    assemble > 0     ? "Schrank aufbauen: " + assemble + "x"          : "",
+                    kitchenAbbau > 0 ? "Kueche abbauen: " + kitchenAbbau + "x"       : "",
+                    kitchenAufbau    ? "Kueche aufbauen: Ja (Preis auf Anfrage)"      : "",
+                    "",
+                    "Schaetzpreis: " + price + " EUR",
+                  ].filter(Boolean).join("\n");
+                  window.open("https://wa.me/49000000000?text=" + encodeURIComponent(lines), "_blank");
+                }}>
                   Verbindliches Angebot anfragen &rarr;
                 </button>
               </div>
