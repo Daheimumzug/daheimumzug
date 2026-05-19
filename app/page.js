@@ -2,8 +2,17 @@
 
 import { useState } from "react";
 
+// 👇 نحدد شكل البيانات
+type FormData = {
+  rooms: string;
+  floor: string;
+  elevator: string;
+  distance: number;
+  boxes: number;
+};
+
 export default function Home() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     rooms: "1",
     floor: "0",
     elevator: "yes",
@@ -11,24 +20,37 @@ export default function Home() {
     boxes: 10,
   });
 
-  const [price, setPrice] = useState(350);
+  const [price, setPrice] = useState<number>(350);
 
-  const calculatePrice = (data) => {
+  const calculatePrice = (data: FormData) => {
     let base = 300;
 
-    const roomRates = { "1": 0, "2": 150, "3": 300, "4": 500 };
-    const floorRates = { "0": 0, "1": 50, "2": 100, "3": 180 };
+    const roomRates: Record<string, number> = {
+      "1": 0,
+      "2": 150,
+      "3": 300,
+      "4": 500,
+    };
+
+    const floorRates: Record<string, number> = {
+      "0": 0,
+      "1": 50,
+      "2": 100,
+      "3": 180,
+    };
 
     base += roomRates[data.rooms] || 0;
     base += floorRates[data.floor] || 0;
+
     if (data.elevator === "no") base += 120;
+
     base += Number(data.distance) * 2.5;
     base += Number(data.boxes) * 2;
 
     setPrice(Math.round(base));
   };
 
-  const handleChange = (key, value) => {
+  const handleChange = (key: keyof FormData, value: string | number) => {
     const newData = { ...formData, [key]: value };
     setFormData(newData);
     calculatePrice(newData);
@@ -65,7 +87,6 @@ Ich brauche ein Angebot:
 
         <div className="relative z-10 text-center">
 
-          {/* LOGO */}
           <img
             src="/images/logo.jpg"
             alt="logo"
@@ -86,17 +107,9 @@ Ich brauche ein Angebot:
       <section className="py-16 text-center">
         <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-6 px-6">
 
-          <div className="bg-[#102a4d] p-6 rounded-2xl">
-            Schnell
-          </div>
-
-          <div className="bg-[#102a4d] p-6 rounded-2xl">
-            Sicher
-          </div>
-
-          <div className="bg-[#102a4d] p-6 rounded-2xl">
-            Fair
-          </div>
+          <div className="bg-[#102a4d] p-6 rounded-2xl">Schnell</div>
+          <div className="bg-[#102a4d] p-6 rounded-2xl">Sicher</div>
+          <div className="bg-[#102a4d] p-6 rounded-2xl">Fair</div>
 
         </div>
       </section>
@@ -111,7 +124,9 @@ Ich brauche ein Angebot:
         <input
           type="number"
           value={formData.distance}
-          onChange={(e) => handleChange("distance", e.target.value)}
+          onChange={(e) =>
+            handleChange("distance", Number(e.target.value))
+          }
           className="w-full p-4 mb-3 text-black rounded-xl"
           placeholder="Distanz"
         />
@@ -150,18 +165,18 @@ Ich brauche ein Angebot:
         <input
           type="number"
           value={formData.boxes}
-          onChange={(e) => handleChange("boxes", e.target.value)}
+          onChange={(e) =>
+            handleChange("boxes", Number(e.target.value))
+          }
           className="w-full p-4 mb-4 text-black rounded-xl"
           placeholder="Kartons"
         />
 
-        {/* PRICE */}
         <div className="bg-[#b08968] text-[#0b1f3a] text-center p-6 rounded-2xl mb-4">
           <p>Preis</p>
           <h3 className="text-4xl font-black">ab {price} €</h3>
         </div>
 
-        {/* WHATSAPP */}
         <a
           href={whatsappLink()}
           target="_blank"
