@@ -141,9 +141,9 @@ function Counter({ value, onChange, label, priceEach, hidePrice }: {
 }) {
   return (
     <div style={{ marginBottom: 0 }}>
-      <div style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.38)", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: 7, display: "flex", justifyContent: "space-between" }}>
+      <div style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.38)", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: 7 }}>
         <span>{label}</span>
-        {!hidePrice && <span style={{ color: GOLD }}>+{priceEach} {"\u20AC"} / St{"\u00FC"}ck</span>}
+
       </div>
       <div style={{ display: "flex", alignItems: "center", background: "rgba(7,18,34,0.9)", border: "1px solid rgba(176,137,104,0.22)", borderRadius: 14, overflow: "hidden", height: 50 }}>
         <button type="button" onClick={() => onChange(Math.max(0, value - 1))}
@@ -189,10 +189,14 @@ export default function Home() {
   const [price,         setPrice]         = useState(280);
 
   const [distMode,    setDistMode]    = useState("address");
-  const [addrFrom,    setAddrFrom]    = useState("");
-  const [addrTo,      setAddrTo]      = useState("");
-  const [addrLoading, setAddrLoading] = useState(false);
-  const [addrError,   setAddrError]   = useState("");
+  const [addrFrom,     setAddrFrom]     = useState("");
+  const [addrFromPlz,  setAddrFromPlz]  = useState("");
+  const [addrFromCity, setAddrFromCity] = useState("");
+  const [addrTo,       setAddrTo]       = useState("");
+  const [addrToPlz,    setAddrToPlz]    = useState("");
+  const [addrToCity,   setAddrToCity]   = useState("");
+  const [addrLoading,  setAddrLoading]  = useState(false);
+  const [addrError,    setAddrError]    = useState("");
 
   const [firstName, setFirstName] = useState("");
   const [lastName,  setLastName]  = useState("");
@@ -243,30 +247,58 @@ export default function Home() {
     setPrice(Math.round(base));
   }, [rooms, floor, elevator, distance, disassemble, assemble, kitchenAbbau, kitchenAufbau]);
 
+  const extractPlz = (addr: string): number | null => {
+    const match = addr.match(/\b(\d{5})\b/);
+    return match ? parseInt(match[1]) : null;
+  };
+
   const calcDistanceKm = async (from: string, to: string) => {
     setAddrLoading(true); setAddrError("");
     try {
       const geo = (q: string) =>
-        fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=1`, {
-          headers: { "Accept-Language": "de" },
-        }).then(r => r.json());
+        fetch(`/api/geo?q=${encodeURIComponent(q)}&format=json&limit=1`)
+        .then(r => r.json());
       const [r1, r2] = await Promise.all([geo(from), geo(to)]);
-      if (!r1[0] || !r2[0]) { setAddrError("Adresse nicht gefunden. Bitte genauer eingeben."); setAddrLoading(false); return; }
-      const toRad = (x: number) => x * Math.PI / 180;
-      const [lat1, lon1, lat2, lon2] = [+r1[0].lat, +r1[0].lon, +r2[0].lat, +r2[0].lon];
-      const dLat = toRad(lat2 - lat1), dLon = toRad(lon2 - lon1);
-      const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
-      setDistance(Math.round(6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))));
-    } catch { setAddrError("Fehler bei der Berechnung. Bitte manuell eingeben."); }
+      if (r1[0] && r2[0]) {
+        const toRad = (x: number) => x * Math.PI / 180;
+        const [lat1, lon1, lat2, lon2] = [+r1[0].lat, +r1[0].lon, +r2[0].lat, +r2[0].lon];
+        const dLat = toRad(lat2 - lat1), dLon = toRad(lon2 - lon1);
+        const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+        setDistance(Math.round(6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))));
+        setAddrError("");
+      } else {
+        const plz1 = extractPlz(from);
+        const plz2 = extractPlz(to);
+        if (plz1 && plz2) {
+          const est = Math.max(10, Math.round(Math.abs(plz1 - plz2) * 0.09 + 5));
+          setDistance(Math.min(est, 600));
+          setAddrError("SchÃ¤tzwert anhand PLZ â€” bitte manuell prÃ¼fen.");
+        } else {
+          setAddrError("Adresse nicht gefunden. Bitte genauer eingeben oder Km manuell wÃ¤hlen.");
+        }
+      }
+    } catch {
+      const plz1 = extractPlz(from);
+      const plz2 = extractPlz(to);
+      if (plz1 && plz2) {
+        const est = Math.max(10, Math.round(Math.abs(plz1 - plz2) * 0.09 + 5));
+        setDistance(Math.min(est, 600));
+        setAddrError("SchÃ¤tzwert anhand PLZ â€” bitte manuell prÃ¼fen.");
+      } else {
+        setAddrError("Fehler. Bitte Km manuell eingeben.");
+      }
+    }
     setAddrLoading(false);
   };
 
   useEffect(() => {
     if (distMode !== "address") return;
-    if (!addrFrom.trim() || !addrTo.trim()) return;
-    const timer = setTimeout(() => calcDistanceKm(addrFrom, addrTo), 900);
+    const fullFrom = [addrFrom, addrFromPlz, addrFromCity].filter(Boolean).join(" ");
+    const fullTo   = [addrTo,   addrToPlz,   addrToCity].filter(Boolean).join(" ");
+    if (!fullFrom.trim() || !fullTo.trim()) return;
+    const timer = setTimeout(() => calcDistanceKm(fullFrom, fullTo), 900);
     return () => clearTimeout(timer);
-  }, [addrFrom, addrTo, distMode]);
+  }, [addrFrom, addrFromPlz, addrFromCity, addrTo, addrToPlz, addrToCity, distMode]);
 
   const handleSubmit = () => {
     const roomsLabel = ({ "1": "1 Zimmer", "2": "2 Zimmer", "3": "3 Zimmer", "4": "4+ Zimmer" } as Record<string,string>)[rooms] ?? rooms;
@@ -317,7 +349,7 @@ export default function Home() {
   const faqs = [
     { q: "Wie weit im Voraus soll ich buchen?", a: "Wir empfehlen mindestens 2\u20133 Wochen vor dem gew\u00FCnschten Umzugstermin. In der Hochsaison (Mai\u2013September) idealerweise 4\u20136 Wochen." },
     { q: "Ist mein Umzugsgut versichert?", a: "Ja, jeder Umzug ist standardm\u00E4\u00DFig mit einer Transportversicherung bis 50.000 \u20AC abgedeckt. Auf Wunsch bieten wir auch h\u00F6here Deckungssummen an." },
-    { q: "Kann ich den Termin kurzfristig \u00E4ndern?", a: "Terminänderungen sind bis 48 Stunden vorher kostenlos m\u00F6glich. Danach berechnen wir eine kleine Bearbeitungsgeb\u00FChr." },
+    { q: "Kann ich den Termin kurzfristig \u00E4ndern?", a: "TerminÃ¤nderungen sind bis 48 Stunden vorher kostenlos m\u00F6glich. Danach berechnen wir eine kleine Bearbeitungsgeb\u00FChr." },
     { q: "Liefert ihr auch Verpackungsmaterial?", a: "Selbstverst\u00E4ndlich! Kartons, Luftpolsterfolie, Klebeband und Schutzdecken liefern wir auf Wunsch vorab zu Ihnen nach Hause." },
     { q: "Arbeitet ihr auch am Wochenende?", a: "Ja! Wir sind 7 Tage die Woche einsatzbereit \u2014 auch an Sonn- und Feiertagen, ohne Aufpreis." },
     { q: "Wie genau ist der Preisrechner?", a: "Der Rechner gibt eine solide Sch\u00E4tzung f\u00FCr Standardumz\u00FCge. F\u00FCr eine verbindliche Offerte kommen wir gerne kostenlos zu Ihnen." },
@@ -654,11 +686,25 @@ export default function Home() {
                         onChange={e => setDistance(e.target.value===""?0:Number(e.target.value))}
                         className="inp" style={IS} />
                     ) : (
-                      <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
-                        <input type="text" value={addrFrom} onChange={e => setAddrFrom(e.target.value)}
-                          placeholder="Von: z.B. Hauptstr. 1, Stuttgart" className="inp" style={IS} />
-                        <input type="text" value={addrTo} onChange={e => setAddrTo(e.target.value)}
-                          placeholder="Nach: z.B. Gartenstr. 5, Freiburg" className="inp" style={IS} />
+                      <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
+                        <div style={{ fontSize:10, fontWeight:700, color:GOLD, textTransform:"uppercase", letterSpacing:"0.12em" }}>Von (Abholadresse)</div>
+                        <div style={{ display:"grid", gridTemplateColumns:"1fr auto", gap:8 }}>
+                          <input type="text" value={addrFrom} onChange={e => setAddrFrom(e.target.value)}
+                            placeholder="Strassenname + Nr. (z.B. Hauptstr. 1)" className="inp" style={IS} />
+                          <input type="text" value={addrFromPlz} onChange={e => setAddrFromPlz(e.target.value)}
+                            placeholder="PLZ" className="inp" style={{...IS, width:90}} />
+                        </div>
+                        <input type="text" value={addrFromCity} onChange={e => setAddrFromCity(e.target.value)}
+                          placeholder="Stadt (z.B. Stuttgart)" className="inp" style={IS} />
+                        <div style={{ fontSize:10, fontWeight:700, color:GOLD, textTransform:"uppercase", letterSpacing:"0.12em", marginTop:4 }}>Nach (Zieladresse)</div>
+                        <div style={{ display:"grid", gridTemplateColumns:"1fr auto", gap:8 }}>
+                          <input type="text" value={addrTo} onChange={e => setAddrTo(e.target.value)}
+                            placeholder="Strassenname + Nr. (z.B. Gartenstr. 5)" className="inp" style={IS} />
+                          <input type="text" value={addrToPlz} onChange={e => setAddrToPlz(e.target.value)}
+                            placeholder="PLZ" className="inp" style={{...IS, width:90}} />
+                        </div>
+                        <input type="text" value={addrToCity} onChange={e => setAddrToCity(e.target.value)}
+                          placeholder="Stadt (z.B. Freiburg)" className="inp" style={IS} />
                         {addrLoading && (
                           <p style={{ color:GOLD, fontSize:12, margin:0, display:"flex", alignItems:"center", gap:6 }}>
                             <span style={{ display:"inline-block", width:12, height:12, border:`2px solid ${GOLD}`, borderTopColor:"transparent", borderRadius:"50%", animation:"spin .7s linear infinite" }} />
@@ -669,7 +715,7 @@ export default function Home() {
                         {!addrLoading && distance>0 && distMode==="address" && (
                           <p style={{ color:GOLD, fontSize:12, fontWeight:700, margin:0 }}>&#10003; Entfernung: ~{distance} km</p>
                         )}
-                        {!addrLoading && !addrError && (!addrFrom.trim()||!addrTo.trim()) && (
+                        {!addrLoading && !addrError && (!(addrFrom||addrFromCity).trim()||!(addrTo||addrToCity).trim()) && (
                           <p style={{ color:"rgba(255,255,255,.28)", fontSize:11, margin:0 }}>Beide Adressen eingeben &mdash; Preis passt sich automatisch an.</p>
                         )}
                       </div>
@@ -737,7 +783,7 @@ export default function Home() {
                     "Zimmer: " + roomsLabel,
                     "Stockwerk: " + floorLabel,
                     "Aufzug: " + (elevator === "yes" ? "Ja" : "Nein"),
-                    "Entfernung: " + (distMode === "address" && addrFrom && addrTo ? addrFrom + " -> " + addrTo + " (~" + distance + " km)" : distance + " km"),
+                    "Entfernung: " + (distMode === "address" && (addrFrom || addrFromCity) && (addrTo || addrToCity) ? (addrFrom + " " + addrFromPlz + " " + addrFromCity).trim() + " -> " + (addrTo + " " + addrToPlz + " " + addrToCity).trim() + " (~" + distance + " km)" : distance + " km"),
                     disassemble > 0  ? "Schrank abbauen: " + disassemble + "x"        : "",
                     assemble > 0     ? "Schrank aufbauen: " + assemble + "x"          : "",
                     kitchenAbbau > 0 ? "Kueche abbauen: " + kitchenAbbau + "x"       : "",
